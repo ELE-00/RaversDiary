@@ -1,56 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { supabase } from '../utils/supabaseClient';  // Import the Supabase client
 import { globalStyles } from '../utils/theme';  // Import the global styles
 import { Image } from 'expo-image';
-import CryptoJS from 'crypto-js';  // Import CryptoJS for password hashing
+import { supabase } from '../utils/supabaseClient';  // Import Supabase
+import { AuthContext } from '../utils/AuthContext';  // Import the AuthContext
 
 export default function LoginScreen() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
+  const { login } = useContext(AuthContext);  // Access login function from context
 
   const handleLogin = async () => {
-    // Hash the input password
-    const hashedPassword = CryptoJS.SHA256(password).toString();
+    try {
+      const user = await login(username, password);  // Call the login function from context
+      
+      // Fetch user data from Supabase after login to check the last_login field
+      const { data: userlogin, error } = await supabase
+        .from('users')
+        .select('last_login')
+        .eq('username', username.toLowerCase())
+        .single();
 
-    // Fetch user data from Supabase
-    const { data: user, error } = await supabase
-      .from('users')
-      .select('username, password, last_login')
-      .eq('username', username.toLowerCase())
-      .single();
+      if (error || !userlogin) {
+        Alert.alert('Error', 'Unable to fetch user data.');
+        return;
+      }
 
-    if (error || !user) {
-      Alert.alert('Invalid username/password');
-      return;
-    }
+      // Navigate to the appropriate screen
+      if (!userlogin.last_login) {
+        // If it's the user's first login, navigate to the Onboarding screen
+        navigation.navigate('Onboarding1');
+      } else {
+        // If the user has logged in before, navigate to the Profile screen
+        navigation.navigate('Onboarding1');
+      }
 
-    // Verify the hashed password
-    if (user.password !== hashedPassword) {
-      Alert.alert('Invalid username/password');
-      return;
-    }
+      // After navigation, update the last_login field in the database
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({ last_login: new Date().toISOString() })
+        .eq('username', username.toLowerCase());
 
-    // Update last_login if login is successful
-    const { error: updateError } = await supabase
-      .from('users')
-      .update({ last_login: new Date().toISOString() })
-      .eq('username', username.toLowerCase());
+      if (updateError) {
+        throw new Error('Failed to update last login');
+      }
 
-    if (updateError) {
-      Alert.alert('Error', 'Failed to update last login.');
-      return;
-    }
-
-    // Navigate to the appropriate screen
-    if (!user.last_login) {
-      navigation.navigate('Onboarding');  // Navigate to onboarding screen
-    } else {
-      navigation.navigate('Profile');  // Navigate to profile screen
-    }
-  };
+    } catch (error) {
+      Alert.alert('Login Failed', error.message);  // Show error if login fails
+  }
+};
 
   // Handle external link navigation
   const openWebLink = () => {
@@ -65,11 +65,11 @@ export default function LoginScreen() {
       <Image
         source={require('../assets/images/logo.png')}  // Use require to load the local image
         contentFit="center"
-        style={{ position: "absolute", top: 50, width: 200, height: 200, marginBottom: 40 }}  // Define width and height
+        style={{ position: "absolute", top: 80, width: 100, height: 100, marginBottom: 40 }}  // Define width and height
       />  
 
       <Text style={globalStyles.headerText}>RAVER'S DIARY</Text>
-      <Text style={globalStyles.subheaderText}>LOGIN IN</Text>
+      <Text style={globalStyles.subheaderText}>LOG IN</Text>
 
       <TextInput
         style={globalStyles.input}
@@ -109,6 +109,6 @@ const styles = StyleSheet.create({
     marginTop: 20,  // Adjusts the vertical position of the text
   },
   boomerangText: {
-    bottom: -225,  // Adjusts the vertical position of the text
+    bottom: -150,  // Adjusts the vertical position of the text
   },
 });

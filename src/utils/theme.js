@@ -98,8 +98,94 @@ const globalStyles = StyleSheet.create({
     marginLeft: 50,
     fontFamily: fonts.body,
   },
+ 
+  //Onboarding Styles
+  OBstepText: {
+    textAlign: 'center',
+    fontSize: 16,
+    fontFamily: 'microgramma-bold', // Custom font
+    color: 'rgba(28, 224, 105, 1)',
+    marginTop: 20,
+  },
+  OBwelcomeText: {
+    textAlign: 'center',
+    fontSize: 24,
+    fontFamily: 'microgramma-bold', // Custom font
+    color: 'rgba(28, 224, 105, 1)',
+    marginTop: 10,
+  },
+  OBdescriptionText: {
+    textAlign: 'center',
+    fontSize: 14,
+    fontFamily: 'ChakraPetch-Regular', // Custom font
+    color: '#FFF',
+    marginTop: 20,
+  },
+  OBsectionTitle: {
+    textAlign: 'center',
+    fontSize: 14,
+    fontFamily: 'ChakraPetch-Regular',
+    color: '#FFF',
+    marginTop: 30,
+    marginBottom: 10,
+  },
+  OBprofilePic: {
+    width: 86,
+    height: 86,
+    borderRadius: 43,
+    alignSelf: 'center',
+    marginTop: 10,
+  },
+  OBheaderImage: {
+    width: 266,
+    height: 120,
+    alignSelf: 'center',
+    marginTop: 10,
+  },
+  OBeditButton: {
+    alignSelf: 'center',
+    marginTop: 15,
+  },
+  OBeditButtonText: {
+    fontSize: 14,
+    fontFamily: 'ChakraPetch-Regular',
+    color: 'rgba(28, 224, 105, 1)',
+  },
+  divider: {
+    borderBottomColor: '#1A1A1A',
+    borderBottomWidth: 1,
+    width: '100%',
+    alignSelf: 'center',
+    marginTop: 20,
+  },
+  OBnextButton: {
+    alignSelf: 'center',
+    marginTop: 30,
+    backgroundColor: 'rgba(28, 224, 105, 1)',
+    paddingVertical: 10,
+    paddingHorizontal: 40,
+    borderRadius: 10,
+  },
+  OBnextButtonText: {
+    fontSize: 14,
+    fontFamily: 'microgramma-bold', // Custom font
+    color: '#000',
+  },
+  OBgenreButton: {
+    alignSelf: 'center',
+    marginTop: 30,
+    backgroundColor: 'rgba(28, 224, 105, 1)',
+    paddingVertical: 10,
+    paddingHorizontal: 40,
+    borderRadius: 10,
+  },
+  OBgenreButtonText: {
+    fontSize: 14,
+    fontFamily: 'ChakraPetch-Regular',
+    color: '#000',
+  },
 
-  
+
 });
 
 export { colors, fonts, globalStyles };

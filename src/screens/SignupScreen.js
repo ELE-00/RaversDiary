@@ -11,7 +11,6 @@ export default function SignupScreen() {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
-  const [raverAlias, setRaverAlias] = useState('');
   const [password, setPassword] = useState('');
   const [termsChecked, setTermsChecked] = useState(false);
   const [marketingChecked, setMarketingChecked] = useState(false);
@@ -70,7 +69,6 @@ export default function SignupScreen() {
       .insert([{ 
         email: lowerCaseEmail, 
         username: lowerCaseUsername, 
-        raveralias: raverAlias, 
         password: hashedPassword, 
         created_at: new Date().toISOString() 
       }]);
@@ -116,19 +114,10 @@ export default function SignupScreen() {
 
       <TextInput
         style={globalStyles.input}
-        placeholder="Username"
+        placeholder="@Username"
         placeholderTextColor="#aaa"
         value={username}
         onChangeText={setUsername}
-        selectionColor='#1ce069'
-      />
-
-      <TextInput
-        style={globalStyles.input}
-        placeholder="Raver Alias"
-        placeholderTextColor="#aaa"
-        value={raverAlias}
-        onChangeText={setRaverAlias} 
         selectionColor='#1ce069'
       />
 

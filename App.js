@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './src/navigation/AppNavigator';  // Ensure this path is correct
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';  // Import SplashScreen API
-
+import { AuthProvider } from './src/utils/AuthContext';  // Import AuthProvider
 
 // Keep splash screen visible while fetching resources
 SplashScreen.preventAutoHideAsync();
@@ -43,8 +43,10 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <AppNavigator />
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer>
+        <AppNavigator />
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
