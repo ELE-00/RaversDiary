@@ -1,95 +1,100 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native'; // Import necessary React Native components
 import { useNavigation } from '@react-navigation/native';
 import { globalStyles } from '../utils/theme';  // Import the global styles
-import { supabase } from '../utils/supabaseClient';  // Import the Supabase client
-import CryptoJS from 'crypto-js';
-import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { Image } from 'expo-image';
+import { supabase } from '../utils/supabaseClient';  // Import Supabase client for database operations
+import CryptoJS from 'crypto-js'; // Import CryptoJS for password hashing
+import BouncyCheckbox from "react-native-bouncy-checkbox"; // Import BouncyCheckbox for checkbox functionality
 
+// SignupScreen component
 export default function SignupScreen() {
-  const navigation = useNavigation();
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [termsChecked, setTermsChecked] = useState(false);
-  const [marketingChecked, setMarketingChecked] = useState(false);
+  const navigation = useNavigation(); // Hook to navigate between screens
+  const [email, setEmail] = useState(''); // State for storing email input
+  const [username, setUsername] = useState(''); // State for storing username input
+  const [password, setPassword] = useState(''); // State for storing password input
+  const [termsChecked, setTermsChecked] = useState(false); // State for checking terms acceptance
+  const [marketingChecked, setMarketingChecked] = useState(false); // State for marketing consent checkbox
 
+  // Function to handle the signup process
   const handleSignup = async () => {
-    // Convert email and username to lowercase
+    // Step 1: Normalize the email and username to lowercase
     const lowerCaseEmail = email.toLowerCase();
     const lowerCaseUsername = username.toLowerCase();
 
-    // Step 1: Check if email exists
+    // Step 2: Check if email already exists in the database
     const { data: emailCheck, error: emailError } = await supabase
       .from('users')
       .select('email')
       .eq('email', lowerCaseEmail);
 
+    // If email exists, show an error message
     if (emailCheck.length > 0) {
       Alert.alert("Error", "Email already exists.");
       return;
     }
 
-    // Step 2: Check if username exists
+    // Step 3: Check if username already exists in the database
     const { data: usernameCheck, error: usernameError } = await supabase
       .from('users')
       .select('username')
       .eq('username', lowerCaseUsername);
 
+    // If username exists, show an error message    
     if (usernameCheck.length > 0) {
       Alert.alert("Error", "Username already exists.");
       return;
     }
 
-    // Step 3: Validate username format
+    // Step 4: Validate the username format
     if (!validateUsername(lowerCaseUsername)) {
       Alert.alert("Error", "Invalid username format. Should be 3-16 characters long, start with an alphabet, and can include alphabets, numbers, or underscores.");
       return;
     }
 
-    // Step 4: Validate password format
+    // Step 5: Validate the password format
     if (!validatePassword(password)) {
       Alert.alert("Error", "Invalid password format. Password should be 6-12 characters long and include at least one digit, one uppercase letter, one lowercase letter, and one special character [@$!%*#?&._].");
       return;
     }
 
-    // Step 5: Check if terms and conditions are accepted
+    // Step 6: Ensure the terms and conditions checkbox is checked
     if (!termsChecked) {
       Alert.alert("Error", "Please agree to the Terms and Conditions.");
       return;
     }
 
-    // Hash the password using SHA-256
+    // Step 7: Hash the password using SHA-256 for security
     const hashedPassword = CryptoJS.SHA256(password).toString();
 
-    // Insert data into Supabase
+    // Step 8: Insert the user's data into the 'users' table in Supabase
     const { data, error } = await supabase
       .from('users')
       .insert([{ 
         email: lowerCaseEmail, 
         username: lowerCaseUsername, 
         password: hashedPassword, 
-        created_at: new Date().toISOString() 
+        created_at: new Date().toISOString() // Save the current timestamp for the creation date
       }]);
 
+    // If there was an error during insert, display an error message
     if (error) {
       console.error("Insert Error:", error);
       Alert.alert("Error", "Failed to register user.");
     } else {
+      // If successful, display a success message and navigate to the login screen
       console.log("Insert Success:", data);
       Alert.alert("Success", "User registered successfully.");
       navigation.navigate('Login'); // Navigate to login or another screen
     }
   };
 
+  // Function to validate username format (3-16 characters, starts with a letter, can include alphabets, numbers, or underscores)
   const validateUsername = (username) => {
-    // Check username format
     return /^[A-Za-z][A-Za-z0-9_]{2,15}$/.test(username);
   };
 
+  // Function to validate password format (6-12 characters, must include one digit, one uppercase letter, one lowercase letter, and one special character)
   const validatePassword = (password) => {
-    // Check password format
     return /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[@$!%*#?&._])[\w\d@$!%*#?&._]{6,12}$/.test(password);
   };
 

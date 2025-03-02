@@ -185,7 +185,164 @@ const globalStyles = StyleSheet.create({
     color: '#000',
   },
 
+  //Boomerang Page 
+  BheaderText: {
+    fontFamily: fonts.header,
+    fontSize: 35,
+    color: colors.primary,
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginBottom: 5,
+    alignSelf: 'center',
+  },
+  BsubheaderText: {
+    fontFamily: fonts.header,
+    fontSize: 17,
+    color: colors.textPrimary,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    
+  },
+  BbodyText: {
+    fontFamily: fonts.body,
+    fontSize: 14,
+    color: colors.textPrimary,
+    marginBottom: 20
+  },
+  BcardheaderText: {
+    fontFamily: fonts.header,
+    fontSize: 15,
+    color: colors.primary,
+    fontWeight: 'bold',
+    marginBottom: 15,
+  },
+  
+  //Checklist Page
+  CLcheckboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    marginLeft: 20,
+    fontFamily: fonts.body,
+    borderBottomColor: '#1A1A1A',
+    borderBottomWidth: 1,
 
+  },
+  CLText: {
+    color: colors.textPrimary,
+    fontFamily: fonts.body,
+    fontSize: 20,
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  CLheaderText: {
+    textAlign: 'center',
+    fontFamily: fonts.header,
+    fontSize: 28,
+    color: colors.primary,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  CLsubheaderText: {
+    textAlign: 'center',
+    fontSize: 14,
+    fontFamily: 'ChakraPetch-Regular', // Custom font
+    color: '#FFF',
+    marginBottom: 15,
+  },
+  CLdivider: {
+    borderBottomColor: '#1A1A1A',
+    borderBottomWidth: 1,
+    width: '100%',
+    alignSelf: 'center',
+    marginBottom: 20,
+  },
+
+  CLmodalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Dim background
+  },
+  CLmodalContent: {
+    width: '80%',
+    backgroundColor: 'black',
+    borderColor: colors.primary,
+    borderWidth: 0.5,
+    borderRadius: 20,
+    padding: 20,
+  },
+  CLinput: {
+    height: 50,
+    backgroundColor: '#222',
+    color: colors.primary,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+    fontFamily: fonts.body,
+  },
+  CLaddButton: {
+    backgroundColor: '#1ce069',
+    padding: 15,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  CLaddButtonText: {
+    fontSize: 14,
+    fontFamily: fonts.body,
+    color: '#000',    
+  },
+  CLcloseButton: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: '#aaa',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  CLcloseButtonText: {
+    fontSize: 14,
+    fontFamily: fonts.body,
+    color: '#000',
+  },
+  CLcontainer: {
+    flex: 1,
+    backgroundColor: '#000',
+  },
+  CLlist: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  CLitemContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  CLitemText: {
+    fontSize: 18,
+    color: 'white',
+  },
+  CLfab: {
+    position: 'absolute',
+    right: 20,
+    bottom: 20,
+    backgroundColor: '#1ce069',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  CLfabText: {
+    fontSize: 35,
+    color: 'black',
+  },
+
+
+
+
+  
 });
 
 export { colors, fonts, globalStyles };

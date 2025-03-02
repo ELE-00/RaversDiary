@@ -1,32 +1,37 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'; // Import necessary React Native components
 import { globalStyles } from '../utils/theme';  // Import the global styles
-import { supabase } from '../utils/supabaseClient';  // Import the Supabase client
-import { AuthContext } from '../utils/AuthContext';  // Import the AuthContext
+import { supabase } from '../utils/supabaseClient';  // Import Supabase client for database operations
+import { AuthContext } from '../utils/AuthContext';  // Import the AuthContext to get logged-in user data
 import { useFocusEffect } from '@react-navigation/native';  // Import the useFocusEffect hook
 
 
 export default function OnboardingScreen1({ route, navigation }) {
-  const [raverAlias, setRaverAlias] = useState('');
-  const [userbio, setUserBio] = useState('');
-  const [userGenres, setUserGenres] = useState([]);
-  const { user } = useContext(AuthContext);  // Access the logged-in user
+  const [raverAlias, setRaverAlias] = useState(''); // Store Raver Alias input
+  const [userbio, setUserBio] = useState(''); // Store Bio input
+  const [userGenres, setUserGenres] = useState([]); // Store selected genres
+  const [userId, setUserId] = useState(null);  // Store user_id for profile saving
+  const { user } = useContext(AuthContext);  // Access the logged-in user from context
 
-  // Function to fetch user genres
+  // Convert Raver Alias to uppercase (can be used for consistent formatting)
+  const UpperCaseraverAlias = raverAlias.toUpperCase();
+
+  // Function to fetch user genres from the database
   const fetchUserGenres = async () => {
     try {
       if (user && user.username) {
+        // Fetch the user ID based on the username
         const { data: userData, error: userError } = await supabase
           .from('users')
           .select('user_id')
-          .eq('username', user.username.toLowerCase())
+          .eq('username', user.username.toLowerCase()) // Match username in lowercase
           .single();
 
-        if (userError || !userData) {
-          console.warn('User data not found.');
-          return;
+        if (!userError && userData) {
+          setUserId(userData.user_id);  // Store the user_id in state
         }
 
+        // Fetch user's selected genres from the profile_data table
         const { data: profileData, error: profileError } = await supabase
           .from('profile_data')
           .select('usergenres')
@@ -34,39 +39,78 @@ export default function OnboardingScreen1({ route, navigation }) {
           .single();
 
         if (profileError) {
-          console.warn('Error fetching user genres.');
-          setUserGenres([]);
+          console.warn('Error fetching user genres.'); // Warn if there's an error fetching genres
+          setUserGenres([]); // Set genres to an empty array if error occurs
         } else if (profileData && profileData.usergenres) {
+          // Parse genres if they're stored as a string in the database
           try {
             const parsedGenres = typeof profileData.usergenres === 'string'
               ? JSON.parse(profileData.usergenres)
               : profileData.usergenres;
 
             if (Array.isArray(parsedGenres)) {
-              setUserGenres(parsedGenres);
+              setUserGenres(parsedGenres); // Update the state with the fetched genres
             } else {
-              setUserGenres([]);
+              setUserGenres([]); // If parsing fails, set an empty array
             }
           } catch (parseError) {
             console.error('Error parsing user genres:', parseError);
-            setUserGenres([]);
+            setUserGenres([]); // Handle parse error
           }
         } else {
-          setUserGenres([]);
+          setUserGenres([]); // Set genres to an empty array if no genres found
         }
       } else {
-        console.warn('No user information available.');
+        console.warn('No user information available.'); // Warn if there's no user data
       }
     } catch (error) {
-      console.error('Unexpected error in fetchUserGenres:', error);
+      console.error('Unexpected error in fetchUserGenres:', error); // Log unexpected errors
     }
   };
+
+
+  // Function to save profile information (Raver Alias, Bio, and Genres)
+  const saveProfileInfo = async () => {
+    // Ensure Raver Alias and Genres are not empty
+    if (raverAlias.length === 0) {
+      Alert.alert('Error', 'Raver Alias is mandatory.');
+      return; // Exit if no alias is provided
+    }
+
+    // Ensure at least one genre is selected
+    if (userGenres.length === 0) {
+      Alert.alert('Error', 'Please select at least one genre.');
+      return; // Exit if no genres are selected
+    }
+
+    try {
+      // Save or update the profile data in the database
+      const { error } = await supabase
+        .from('profile_data')
+        .upsert({
+          user_id: userId, // User ID for the profile
+          raveralias: UpperCaseraverAlias, // Save Raver Alias in uppercase
+          bio: userbio, // Save the Bio
+        });
+
+      if (error) {
+        Alert.alert('Error', 'Failed to save profile info.'); // Show error if save fails
+      } else {
+        // Navigate to the next onboarding screen on success
+        navigation.navigate('Onboarding2');
+      }
+    } catch (saveError) {
+      console.error('Error saving profile info:', saveError); // Log save errors
+      Alert.alert('Error', 'Failed to save profile info.'); 
+    }
+  };
+
 
   // Use useFocusEffect to call fetchUserGenres when the screen comes into focus
   useFocusEffect(
     React.useCallback(() => {
-      fetchUserGenres();
-    }, [user])
+      fetchUserGenres(); // Fetch genres each time the screen is focused
+    }, [user]) // Re-fetch genres if user changes
   );
 
   return (
@@ -107,13 +151,13 @@ export default function OnboardingScreen1({ route, navigation }) {
       placeholderTextColor="#aaa"
       value={userbio}
       onChangeText={(text) => {
-        if (text.length <= 10) {
+        if (text.length <= 50) {
           setUserBio(text);
         }
       }}
       selectionColor='#1ce069'
       />
-      <Text style={{ color: '#aaa', fontSize: 12, margin: -10 }}>{userbio.length}/10</Text>
+      <Text style={{ color: '#aaa', fontSize: 12, margin: -10 }}>{userbio.length}/50</Text>
 
       {/* Genresn Section */}
       <Text style={globalStyles.OBsectionTitle}>3. Tell us what you listen to.</Text>
@@ -135,7 +179,7 @@ export default function OnboardingScreen1({ route, navigation }) {
 
 
       {/* Next Button */}
-      <TouchableOpacity style={globalStyles.OBnextButton} onPress={() => navigation.navigate('Onboarding2')}>
+      <TouchableOpacity style={globalStyles.OBnextButton} onPress={saveProfileInfo}>
         <Text style={globalStyles.OBnextButtonText}>NEXT</Text>
       </TouchableOpacity>
 
