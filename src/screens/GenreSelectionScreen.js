@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'reac
 import { supabase } from '../utils/supabaseClient';  // Import Supabase client for database operations
 import { globalStyles } from '../utils/theme';  // Global styles for consistent design
 import { AuthContext } from '../utils/AuthContext';  // Import the AuthContext to get logged-in user data
+import GradientBackground from '../components/GradientBackground';
 
 export default function GenreSelectionScreen({ route, navigation }) {
     const { user } = useContext(AuthContext);  // Access the logged-in user data from AuthContext
@@ -29,8 +30,9 @@ export default function GenreSelectionScreen({ route, navigation }) {
   
       if (error) {
         console.error(error);
-        Alert.alert('Error', 'Could not fetch genres.');
+        Alert.alert('Error', 'Could not fetch genres from genre database.');
       } else {
+        console.log("Fetched data: ", data);
         setGenres(data); // Store all genres in the state
         setFilteredGenres(data);  // Initially, all genres will be shown
       }
@@ -118,7 +120,9 @@ export default function GenreSelectionScreen({ route, navigation }) {
             .upsert({ user_id: userId, usergenres: selectedGenres });
   
           if (error) {
-            Alert.alert('Error', 'Failed to save genres.'); // Handle errors
+            console.log('userId:', userId);
+            console.log('selectedGenres:', selectedGenres);
+            Alert.alert('Error', `Failed to save genres: ${error.message}`); // Handle errors
           } else {
             navigation.goBack(); // Go back to previous screen if success
           }
@@ -130,6 +134,7 @@ export default function GenreSelectionScreen({ route, navigation }) {
       }
     };
   
+    //Displays the genres on the screen
     const renderGenreItem = ({ item }) => (
       <TouchableOpacity
         key={item.genre_id}
@@ -139,59 +144,61 @@ export default function GenreSelectionScreen({ route, navigation }) {
         ]}
         onPress={() => handleSelectGenre(item.name)} // Handle genre selection
       >
-        <Text style={styles.genreText}>{item.name}</Text>
+        <Text style={styles.genreText}>{item.name.toUpperCase()}</Text>
       </TouchableOpacity>
     );
   
 
   return (
-    <View style={styles.container}>
-        {/* Back Button to navigate to previous screen */}
-        <TouchableOpacity style={globalStyles.backButton} onPress={() => {
-        if (fromPage === 'Onboarding1') {
-            navigation.navigate('Onboarding1');  // Navigate to onboarding screen
-        } else if (fromPage === 'ProfileEdit') {
-            navigation.navigate('ProfileEdit'); // Navigate to profile edit screen
-        } else {
-            console.warn('Unexpected fromPage value:', fromPage); // Handle unexpected 'fromPage' value
-            navigation.goBack();  // Fallback to go back to the previous screen
-        }
-        }}>
-        <Text style={globalStyles.backButtonText}>←</Text>
+    <GradientBackground>
+      <View style={styles.container}>
+          {/* Back Button to navigate to previous screen */}
+          <TouchableOpacity style={globalStyles.backButton} onPress={() => {
+          if (fromPage === 'Onboarding1') {
+              navigation.navigate('Onboarding1');  // Navigate to onboarding screen
+          } else if (fromPage === 'ProfileEdit') {
+              navigation.navigate('ProfileEdit'); // Navigate to profile edit screen
+          } else {
+              console.warn('Unexpected fromPage value:', fromPage); // Handle unexpected 'fromPage' value
+              navigation.goBack();  // Fallback to go back to the previous screen
+          }
+          }}>
+          <Text style={globalStyles.backButtonText}>←</Text>
+          </TouchableOpacity>
+
+
+        {/* Search Bar for filtering genres */}
+        <TextInput
+          style={styles.searchbar}
+          placeholder="Search genres..."
+          placeholderTextColor="#aaa"
+          value={searchQuery}
+          onChangeText={handleSearch}
+          selectionColor='#1ce069'
+        />
+
+        {/* Selected Genres Display */}
+        <Text style={styles.selectedText}>Selected Genres ({selectedGenres.length}/5):</Text>
+        <View style={styles.selectedContainer}>
+          {selectedGenres.map((genre, index) => (
+            <Text key={index} style={styles.selectedGenre}>{genre.toUpperCase()}</Text> // Display each selected genre
+          ))}
+        </View>
+
+        {/* Genre Suggestions List - Horizontal Wrapping */}
+        <View style={styles.genresContainer}>
+          {filteredGenres.map((genre) => renderGenreItem({ item: genre }))}  
+        </View>
+
+        {/* Submit Button */}
+        <TouchableOpacity
+          style={styles.button}
+          onPress={saveGenres}
+        >
+          <Text style={styles.buttonText}>Select</Text>
         </TouchableOpacity>
-
-
-      {/* Search Bar for filtering genres */}
-      <TextInput
-        style={styles.searchbar}
-        placeholder="Search genres..."
-        placeholderTextColor="#aaa"
-        value={searchQuery}
-        onChangeText={handleSearch}
-        selectionColor='#1ce069'
-      />
-
-      {/* Selected Genres Display */}
-      <Text style={styles.selectedText}>Selected Genres ({selectedGenres.length}/5):</Text>
-      <View style={styles.selectedContainer}>
-        {selectedGenres.map((genre, index) => (
-          <Text key={index} style={styles.selectedGenre}>{genre}</Text> // Display each selected genre
-        ))}
       </View>
-
-      {/* Genre Suggestions List - Horizontal Wrapping */}
-      <View style={styles.genresContainer}>
-        {filteredGenres.map((genre) => renderGenreItem({ item: genre }))}  
-      </View>
-
-      {/* Submit Button */}
-      <TouchableOpacity
-        style={styles.button}
-        onPress={saveGenres}
-      >
-        <Text style={styles.buttonText}>Select</Text>
-      </TouchableOpacity>
-    </View>
+    </GradientBackground>
   );
 }
 
@@ -200,7 +207,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "black",
     paddingHorizontal: 20,
     paddingVertical: 30,
   },
@@ -209,7 +215,7 @@ const styles = StyleSheet.create({
     top: 100,
     width: '100%',
     height: 50,
-    backgroundColor: '#222',
+    backgroundColor: '#121',
     color: '#1ce069',
     borderRadius: 10,
     paddingHorizontal: 10,
@@ -247,8 +253,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   genreItem: {
-    padding: 5,
-    margin: 5,
+    padding: 7,
+    margin: 6,
     borderWidth: 1,
     borderRadius: 25,
     alignItems: 'center',

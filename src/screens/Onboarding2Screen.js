@@ -4,6 +4,7 @@ import { globalStyles } from '../utils/theme'; // Import the global styles
 import { supabase } from '../utils/supabaseClient'; // Import Supabase client for database operations
 import { AuthContext } from '../utils/AuthContext'; // Import the AuthContext to get logged-in user data
 import * as ImagePicker from 'expo-image-picker'; // Import ImagePicker for selecting images
+import GradientBackground from '../components/GradientBackground';
 
 export default function OnboardingScreen2({ navigation }) {
   // State variables to store profile and header images
@@ -148,7 +149,7 @@ export default function OnboardingScreen2({ navigation }) {
         }
       } else {
         // Use default profile image if not uploaded
-        profilePicUrl = "https://xthuvmcrfvtozaoszyty.supabase.co/storage/v1/object/sign/userprofile_images/Default%20images/default_profileimage.png?token=...";
+        profilePicUrl = "http://127.0.0.1:54321/storage/v1/object/public/userprofile_images/default%20profile%20image.jpg";
         console.log('Using default profile picture');
       }
   
@@ -164,7 +165,7 @@ export default function OnboardingScreen2({ navigation }) {
         }
       } else {
         // Use default header image if not uploaded
-        headerImageUrl = "https://xthuvmcrfvtozaoszyty.supabase.co/storage/v1/object/sign/userprofile_images/Default%20images/default_headerimage.png?token=...";
+        headerImageUrl = "http://127.0.0.1:54321/storage/v1/object/public/userprofile_images/default%20header.png?t=2025-06-12T17%3A21%3A16.512Z";
         console.log('Using default header image');
       }
   
@@ -209,59 +210,61 @@ export default function OnboardingScreen2({ navigation }) {
 
 
   return (
-    <View style={globalStyles.container}>
+    <GradientBackground>
+      <View style={globalStyles.container}>
 
-      <TouchableOpacity style={globalStyles.backButton} onPress={() => navigation.navigate('Onboarding1')}>
-        <Text style={globalStyles.backButtonText}>←</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={globalStyles.backButton} onPress={() => navigation.navigate('Onboarding1')}>
+          <Text style={globalStyles.backButtonText}>←</Text>
+        </TouchableOpacity>
 
-      {/* Step Indicator */}
-      <Text style={globalStyles.OBstepText}>2 OF 2</Text>
+        {/* Step Indicator */}
+        <Text style={globalStyles.OBstepText}>2 OF 2</Text>
 
-      {/* Welcome Text */}
-      <Text style={globalStyles.OBwelcomeText}>WELCOME, RAVER!</Text>
-      <Text style={globalStyles.OBsectionTitle}>Almost Set! This step is optional.</Text>
-
-
-
-      {/* Profile Pic Section */}
-      <Text style={globalStyles.OBsectionTitle}>4. Profile Pic: Show us your best rave look!</Text>
-
-      {/* Profile Image */}
-      <Image
-        source={profilePic ? { uri: profilePic } : null} // Bind the profilePic URI to the Image
-        style={{ width: 100, height: 100, borderRadius: 50 }} // Adjust the style as needed
-      />
-
-      <TouchableOpacity style={globalStyles.OBgenreButton} onPress={() => selectImage(setProfilePic)}>
-        <Text style={globalStyles.OBgenreButtonText}>Choose Profile Image</Text>
-      </TouchableOpacity>
+        {/* Welcome Text */}
+        <Text style={globalStyles.OBwelcomeText}>WELCOME, RAVER!</Text>
+        <Text style={globalStyles.OBsectionTitle}>Almost Set! This step is optional.</Text>
 
 
 
-      {/* Header Image Section */}
-      <Text style={globalStyles.OBsectionTitle}>5. Header Image: Set the vibe with a cool banner.</Text>
+        {/* Profile Pic Section */}
+        <Text style={globalStyles.OBsectionTitle}>4. Profile Pic: Show us your best rave look!</Text>
 
-      {/* Header Image */}
-      <Image
-        source={headerImage ? { uri: headerImage } : null} // Bind the profilePic URI to the Image
-        style={{ width: 300, height: 100 }} // Adjust the style as needed
-      />
+        {/* Profile Image */}
+        <Image
+          source={profilePic ? { uri: profilePic } : null} // Bind the profilePic URI to the Image
+          style={{ width: 100, height: 100, borderRadius: 50 }} // Adjust the style as needed
+        />
 
-      <TouchableOpacity style={globalStyles.OBgenreButton} onPress={() => selectImage(setHeaderImage)}>
-        <Text style={globalStyles.OBgenreButtonText}>Choose Header Image</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={globalStyles.OBgenreButton} onPress={() => selectImage(setProfilePic)}>
+          <Text style={globalStyles.OBgenreButtonText}>Choose Profile Image</Text>
+        </TouchableOpacity>
 
 
 
-      {/* Divider */}
-      <View style={globalStyles.divider} />
+        {/* Header Image Section */}
+        <Text style={globalStyles.OBsectionTitle}>5. Header Image: Set the vibe with a cool banner.</Text>
 
-      {/* Next Button */}
-      <TouchableOpacity style={globalStyles.OBnextButton} onPress={handleSave}>
-        <Text style={globalStyles.OBnextButtonText}>SAVE</Text>
-      </TouchableOpacity>
+        {/* Header Image */}
+        <Image
+          source={headerImage ? { uri: headerImage } : null} // Bind the profilePic URI to the Image
+          style={{ width: 300, height: 100 }} // Adjust the style as needed
+        />
 
-    </View>
+        <TouchableOpacity style={globalStyles.OBgenreButton} onPress={() => selectImage(setHeaderImage)}>
+          <Text style={globalStyles.OBgenreButtonText}>Choose Header Image</Text>
+        </TouchableOpacity>
+
+
+
+        {/* Divider */}
+        <View style={globalStyles.divider} />
+
+        {/* Next Button */}
+        <TouchableOpacity style={globalStyles.OBnextButton} onPress={handleSave}>
+          <Text style={globalStyles.OBnextButtonText}>SAVE</Text>
+        </TouchableOpacity>
+
+      </View>
+    </GradientBackground>
   );
 }

@@ -4,7 +4,6 @@ import { StyleSheet } from 'react-native';
 
 const colors = {
   primary: '#1ce069',  // For buttons, highlights, etc.
-  background: '#000',  // Global background color
   textPrimary: '#fff', // For primary text color
   textSecondary: '#aaa', // For secondary text color
 };
@@ -44,7 +43,7 @@ const globalStyles = StyleSheet.create({
   input: {
     width: '80%',
     height: 50,
-    backgroundColor: '#222',
+    backgroundColor: 'rgba(17, 34, 17, 1)',
     color: colors.primary,
     borderRadius: 10,
     paddingHorizontal: 10,

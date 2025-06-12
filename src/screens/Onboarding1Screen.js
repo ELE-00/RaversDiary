@@ -4,7 +4,7 @@ import { globalStyles } from '../utils/theme';  // Import the global styles
 import { supabase } from '../utils/supabaseClient';  // Import Supabase client for database operations
 import { AuthContext } from '../utils/AuthContext';  // Import the AuthContext to get logged-in user data
 import { useFocusEffect } from '@react-navigation/native';  // Import the useFocusEffect hook
-
+import GradientBackground from '../components/GradientBackground';
 
 export default function OnboardingScreen1({ route, navigation }) {
   const [raverAlias, setRaverAlias] = useState(''); // Store Raver Alias input
@@ -114,76 +114,78 @@ export default function OnboardingScreen1({ route, navigation }) {
   );
 
   return (
-    <View style={globalStyles.container}>
+    <GradientBackground>
+      <View style={globalStyles.container}>
 
-      {/* Step Indicator */}
-      <Text style={globalStyles.OBstepText}>1 OF 2</Text>
+        {/* Step Indicator */}
+        <Text style={globalStyles.OBstepText}>1 OF 2</Text>
 
-      {/* Welcome Text */}
-      <Text style={globalStyles.OBwelcomeText}>WELCOME, RAVER!</Text>
+        {/* Welcome Text */}
+        <Text style={globalStyles.OBwelcomeText}>WELCOME, RAVER!</Text>
 
-      {/* Description */}
-      <Text style={globalStyles.OBdescriptionText}>
-        {`We’re excited to have you join our vibrant\ncommunity of music lovers and event-goers.\nLet’s go through a quick onboarding to get you started!`}
-      </Text>
+        {/* Description */}
+        <Text style={globalStyles.OBdescriptionText}>
+          {`We’re excited to have you join our vibrant\ncommunity of music lovers and event-goers.\nLet’s go through a quick onboarding to get you started!`}
+        </Text>
 
- 
-      {/* Raver Alias Section */}
-      <Text style={globalStyles.OBsectionTitle}>1. What's your Raver Alias?</Text>
   
-      <TextInput
+        {/* Raver Alias Section */}
+        <Text style={globalStyles.OBsectionTitle}>1. What's your Raver Alias?</Text>
+    
+        <TextInput
+          style={globalStyles.input}
+          placeholder="Raver Alias"
+          placeholderTextColor="#aaa"
+          value={raverAlias}
+          onChangeText={setRaverAlias} 
+          selectionColor='#1ce069'
+        />  
+
+
+
+        {/* Bio Section Section */}
+        <Text style={globalStyles.OBsectionTitle}>2. Tell us a bit about yourself.</Text>
+
+        <TextInput
         style={globalStyles.input}
-        placeholder="Raver Alias"
+        placeholder="Bio"
         placeholderTextColor="#aaa"
-        value={raverAlias}
-        onChangeText={setRaverAlias} 
+        value={userbio}
+        onChangeText={(text) => {
+          if (text.length <= 50) {
+            setUserBio(text);
+          }
+        }}
         selectionColor='#1ce069'
-      />  
+        />
+        <Text style={{ color: '#aaa', fontSize: 12, margin: -10 }}>{userbio.length}/50</Text>
+
+        {/* Genres Section */}
+        <Text style={globalStyles.OBsectionTitle}>3. Tell us what you listen to.</Text>
+
+        {/* Selected Genres Display */}
+        <View style={styles.OBselectedContainer}>
+          {userGenres.map((genre, index) => (
+            <Text key={index} style={styles.OBselectedGenre}>{genre.toUpperCase()}</Text>
+          ))}
+        </View>
+
+        <TouchableOpacity style={globalStyles.OBgenreButton} onPress={() => navigation.navigate('GenreSelection', { fromPage: 'Onboarding1'})}>
+          <Text style={globalStyles.OBgenreButtonText}>Select genres</Text>
+        </TouchableOpacity>
+  
+  
+        {/* Divider */}
+        <View style={globalStyles.divider} />
 
 
+        {/* Next Button */}
+        <TouchableOpacity style={globalStyles.OBnextButton} onPress={saveProfileInfo}>
+          <Text style={globalStyles.OBnextButtonText}>NEXT</Text>
+        </TouchableOpacity>
 
-      {/* Bio Section Section */}
-      <Text style={globalStyles.OBsectionTitle}>2. Tell us a bit about yourself.</Text>
-
-      <TextInput
-      style={globalStyles.input}
-      placeholder="Bio"
-      placeholderTextColor="#aaa"
-      value={userbio}
-      onChangeText={(text) => {
-        if (text.length <= 50) {
-          setUserBio(text);
-        }
-      }}
-      selectionColor='#1ce069'
-      />
-      <Text style={{ color: '#aaa', fontSize: 12, margin: -10 }}>{userbio.length}/50</Text>
-
-      {/* Genresn Section */}
-      <Text style={globalStyles.OBsectionTitle}>3. Tell us what you listen to.</Text>
-
-      {/* Selected Genres Display */}
-      <View style={styles.OBselectedContainer}>
-        {userGenres.map((genre, index) => (
-          <Text key={index} style={styles.OBselectedGenre}>{genre}</Text>
-        ))}
       </View>
-
-      <TouchableOpacity style={globalStyles.OBgenreButton} onPress={() => navigation.navigate('GenreSelection', { fromPage: 'Onboarding1'})}>
-        <Text style={globalStyles.OBgenreButtonText}>Select genres</Text>
-      </TouchableOpacity>
- 
- 
-      {/* Divider */}
-      <View style={globalStyles.divider} />
-
-
-      {/* Next Button */}
-      <TouchableOpacity style={globalStyles.OBnextButton} onPress={saveProfileInfo}>
-        <Text style={globalStyles.OBnextButtonText}>NEXT</Text>
-      </TouchableOpacity>
-
-    </View>
+    </GradientBackground>  
   );
 }
 

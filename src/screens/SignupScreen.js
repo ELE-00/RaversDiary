@@ -5,6 +5,7 @@ import { globalStyles } from '../utils/theme';  // Import the global styles
 import { supabase } from '../utils/supabaseClient';  // Import Supabase client for database operations
 import CryptoJS from 'crypto-js'; // Import CryptoJS for password hashing
 import BouncyCheckbox from "react-native-bouncy-checkbox"; // Import BouncyCheckbox for checkbox functionality
+import GradientBackground from '../components/GradientBackground';
 
 // SignupScreen component
 export default function SignupScreen() {
@@ -99,82 +100,84 @@ export default function SignupScreen() {
   };
 
   return (
-    <View style={globalStyles.container}>
+    <GradientBackground>
+      <View style={globalStyles.container}>
 
-      <TouchableOpacity style={globalStyles.backButton} onPress={() => navigation.navigate('Login')}>
-        <Text style={globalStyles.backButtonText}>←</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={globalStyles.backButton} onPress={() => navigation.navigate('Login')}>
+          <Text style={globalStyles.backButtonText}>←</Text>
+        </TouchableOpacity>
 
-      <Text style={globalStyles.headerText}>RAVER'S DIARY</Text>
-      <Text style={globalStyles.subheaderText}>SIGN UP</Text>
+        <Text style={globalStyles.headerText}>RAVER'S DIARY</Text>
+        <Text style={globalStyles.subheaderText}>SIGN UP</Text>
 
-      <TextInput
-        style={globalStyles.input}
-        placeholder="Email"
-        placeholderTextColor="#aaa"
-        value={email}
-        onChangeText={setEmail}
-        selectionColor='#1ce069'
-      />
-
-      <TextInput
-        style={globalStyles.input}
-        placeholder="@Username"
-        placeholderTextColor="#aaa"
-        value={username}
-        onChangeText={setUsername}
-        selectionColor='#1ce069'
-      />
-
-      <TextInput
-        style={globalStyles.input}
-        placeholder="Password"
-        placeholderTextColor="#aaa"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry        
-        selectionColor='#1ce069'
-      />
-
-      <View style={globalStyles.checkboxContainer}>
-        <BouncyCheckbox 
-          size={20}
-          fillColor='#1ce069'
-          unFillColor='#000'
-          text={
-            <Text style={globalStyles.TCPPText}>
-              I agree to the <Text style={globalStyles.TCPPLink} onPress={() => navigation.navigate('TCP')}>Terms and Conditions and Privacy Policy</Text> 
-            </Text>
-          }
-
-          iconStyle={{ borderColor: '#aaa' }}
-          innerIconStyle={{ borderWidth: 2 }}
-          textStyle={globalStyles.TCPPText}
-          onPress={() => setTermsChecked(!termsChecked)}
+        <TextInput
+          style={globalStyles.input}
+          placeholder="Email"
+          placeholderTextColor="#aaa"
+          value={email}
+          onChangeText={setEmail}
+          selectionColor='#1ce069'
         />
-      </View>
 
-      <View style={globalStyles.checkboxContainer}>
-        <BouncyCheckbox 
-          size={20}
-          fillColor='#1ce069'
-          unFillColor='#000'
-          text='I consent to receiving marketing emails'
-          iconStyle={{ borderColor: '#aaa' }}
-          innerIconStyle={{ borderWidth: 2 }}
-          textStyle={globalStyles.TCPPText}
-          onPress={() => setMarketingChecked(!marketingChecked)}
+        <TextInput
+          style={globalStyles.input}
+          placeholder="@Username"
+          placeholderTextColor="#aaa"
+          value={username}
+          onChangeText={setUsername}
+          selectionColor='#1ce069'
         />
+
+        <TextInput
+          style={globalStyles.input}
+          placeholder="Password"
+          placeholderTextColor="#aaa"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry        
+          selectionColor='#1ce069'
+        />
+
+        <View style={globalStyles.checkboxContainer}>
+          <BouncyCheckbox 
+            size={20}
+            fillColor='#1ce069'
+            unFillColor='#000'
+            text={
+              <Text style={globalStyles.TCPPText}>
+                I agree to the <Text style={globalStyles.TCPPLink} onPress={() => navigation.navigate('TCP')}>Terms and Conditions and Privacy Policy</Text> 
+              </Text>
+            }
+
+            iconStyle={{ borderColor: '#aaa' }}
+            innerIconStyle={{ borderWidth: 2 }}
+            textStyle={globalStyles.TCPPText}
+            onPress={() => setTermsChecked(!termsChecked)}
+          />
+        </View>
+
+        <View style={globalStyles.checkboxContainer}>
+          <BouncyCheckbox 
+            size={20}
+            fillColor='#1ce069'
+            unFillColor='#000'
+            text='I consent to receiving marketing emails'
+            iconStyle={{ borderColor: '#aaa' }}
+            innerIconStyle={{ borderWidth: 2 }}
+            textStyle={globalStyles.TCPPText}
+            onPress={() => setMarketingChecked(!marketingChecked)}
+          />
+        </View>
+
+        <TouchableOpacity style={globalStyles.button} onPress={handleSignup}>
+          <Text style={globalStyles.buttonText}>SIGN UP</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate('ResetPassword')}>
+          <Text style={globalStyles.linkText}>Forgot password?</Text>
+        </TouchableOpacity>
+
       </View>
-
-      <TouchableOpacity style={globalStyles.button} onPress={handleSignup}>
-        <Text style={globalStyles.buttonText}>SIGN UP</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => navigation.navigate('ResetPassword')}>
-        <Text style={globalStyles.linkText}>Forgot password?</Text>
-      </TouchableOpacity>
-
-    </View>
+    </GradientBackground>
   );
 }

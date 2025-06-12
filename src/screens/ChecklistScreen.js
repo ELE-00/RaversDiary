@@ -4,6 +4,7 @@ import { supabase } from '../utils/supabaseClient';  // Import Supabase client
 import { globalStyles } from '../utils/theme';  // Global styles if you have them
 import { AuthContext } from '../utils/AuthContext';  // Import the AuthContext
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import GradientBackground from '../components/GradientBackground';
 
 export default function ChecklistScreen({ navigation }) {
   const [checklist, setChecklist] = useState([]);
@@ -118,55 +119,57 @@ useEffect(() => {
   );
 
   return (
-    <SafeAreaView style={globalStyles.CLcontainer}>
-      <Text style = {globalStyles.CLheaderText}>MY PRE RAVE CHECKLIST</Text>
-      <Text style = {globalStyles.CLsubheaderText}>Never forget your rave essentials!</Text>
-      
-      {/* Divider */}
-      <View style={globalStyles.CLdivider} />
+    <GradientBackground>
+      <SafeAreaView style={globalStyles.CLcontainer}>
+        <Text style = {globalStyles.CLheaderText}>MY PRE RAVE CHECKLIST</Text>
+        <Text style = {globalStyles.CLsubheaderText}>Never forget your rave essentials!</Text>
         
+        {/* Divider */}
+        <View style={globalStyles.CLdivider} />
+          
 
-      <FlatList
-        data={checklist}
-        //keyExtractor={item => item.item_id.toString()} // Ensure each item has a unique key
-        renderItem={renderItem}
-        contentContainerStyle={styles.CLlist}
-      />
+        <FlatList
+          data={checklist}
+          //keyExtractor={item => item.item_id.toString()} // Ensure each item has a unique key
+          renderItem={renderItem}
+          contentContainerStyle={styles.CLlist}
+        />
 
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={globalStyles.CLmodalContainer}>
-          <View style={globalStyles.CLmodalContent}>
-            <TextInput
-              placeholder="Add new Item..."
-              placeholderTextColor="#aaa"
-              selectionColor='#1ce069'
-              value={newItem}
-              onChangeText={setNewItem}
-              style={globalStyles.CLinput}
-            />
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={globalStyles.CLmodalContainer}>
+            <View style={globalStyles.CLmodalContent}>
+              <TextInput
+                placeholder="Add new Item..."
+                placeholderTextColor="#aaa"
+                selectionColor='#1ce069'
+                value={newItem}
+                onChangeText={setNewItem}
+                style={globalStyles.CLinput}
+              />
 
-            <TouchableOpacity onPress={addItem} style={globalStyles.CLaddButton}>
-              <Text style={globalStyles.CLaddButtonText}>{loading ? "Adding..." : "Add Item"}</Text>
-            </TouchableOpacity>
+              <TouchableOpacity onPress={addItem} style={globalStyles.CLaddButton}>
+                <Text style={globalStyles.CLaddButtonText}>{loading ? "Adding..." : "Add Item"}</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => setModalVisible(false)} style={globalStyles.CLcloseButton}>
-              <Text style={globalStyles.CLcloseButtonText}>Close</Text>
-            </TouchableOpacity>
+              <TouchableOpacity onPress={() => setModalVisible(false)} style={globalStyles.CLcloseButton}>
+                <Text style={globalStyles.CLcloseButtonText}>Close</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </Modal>  
+        </Modal>  
 
 
-      <TouchableOpacity style={globalStyles.CLfab} onPress={() => setModalVisible(true)}> 
-        <Text style={globalStyles.CLfabText}>+</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+        <TouchableOpacity style={globalStyles.CLfab} onPress={() => setModalVisible(true)}> 
+          <Text style={globalStyles.CLfabText}>+</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    </GradientBackground>
   );
 }
 

@@ -5,6 +5,8 @@ import { globalStyles } from '../utils/theme';  // Import the global styles
 import { Image } from 'expo-image'; // Import Image component from Expo
 import { supabase } from '../utils/supabaseClient';  // Import Supabase client for database operations
 import { AuthContext } from '../utils/AuthContext';  // Import the AuthContext to get logged-in user data
+import GradientBackground from '../components/GradientBackground';
+
 
 export default function LoginScreen() {
   const [username, setUsername] = useState('ele'); // Set initial state for username input
@@ -65,13 +67,14 @@ export default function LoginScreen() {
   };
 
 
-  return (
+return (
+  <GradientBackground>
     <View style={globalStyles.container}>
       <Image
-        source={require('../assets/images/logo.png')}  // Use require to load the local image
+        source={require('../assets/images/logo.png')}
         contentFit="center"
-        style={{ position: "absolute", top: 80, width: 100, height: 100, marginBottom: 40 }}  // Define width and height
-      />  
+        style={{ position: "absolute", top: 80, width: 100, height: 100, marginBottom: 40 }}
+      />
 
       <Text style={globalStyles.headerText}>RAVER'S DIARY</Text>
       <Text style={globalStyles.subheaderText}>LOG IN</Text>
@@ -100,13 +103,18 @@ export default function LoginScreen() {
         <Text style={globalStyles.linkText}>Forgot password?</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-        <Text style={[globalStyles.linkText, styles.signupText]}>Don't have an account? Signup</Text>
+        <Text style={[globalStyles.linkText, styles.signupText]}>
+          Don't have an account? Signup
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={openWebLink}>
-        <Text style={[globalStyles.linkText, styles.boomerangText]}>Powered by Boomerang</Text>
+        <Text style={[globalStyles.linkText, styles.boomerangText]}>
+          Powered by Boomerang
+        </Text>
       </TouchableOpacity>
     </View>
-  );
+  </GradientBackground>
+);
 }
 
 const styles = StyleSheet.create({
@@ -116,4 +124,5 @@ const styles = StyleSheet.create({
   boomerangText: {
     bottom: -150,  // Adjusts the vertical position of the text
   },
+
 });

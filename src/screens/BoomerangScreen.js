@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, SafeAreaView, ScrollView, View, Text, Image, StyleSheet, Linking, KeyboardAvoidingView } from 'react-native'; // Import necessary React Native components
 import { globalStyles } from '../utils/theme';  // Import the global styles
+import GradientBackground from '../components/GradientBackground';
 
 // Function to open the Rave Recovery Kit link
 const openweblinkRRK = () => {
@@ -18,37 +19,39 @@ const openweblinkMG = () => {
 // BoomerangScreen component definition
 const BoomerangScreen = () => {
   return (
-    <SafeAreaView style ={styles.safeArea}>
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
-            <ScrollView contentContainerStyle={styles.container}>
+    <GradientBackground>
+      <SafeAreaView style ={styles.safeArea}>
+          <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+              <ScrollView contentContainerStyle={styles.container}>
 
-                <Text style={globalStyles.BheaderText}>{"RAVE ON"} </Text>
-                <Text style={globalStyles.BsubheaderText}>{"RECOVER STRONG"} </Text>
-                <Text style={globalStyles.BbodyText}>{"Go all out on the dancefloor and wake up refreshed.\nOur routine ensures you stay on top of your game"} </Text>
+                  <Text style={globalStyles.BheaderText}>{"RAVE ON"} </Text>
+                  <Text style={globalStyles.BsubheaderText}>{"RECOVER STRONG"} </Text>
+                  <Text style={globalStyles.BbodyText}>{"Go all out on the dancefloor and wake up refreshed.\nOur routine ensures you stay on top of your game"} </Text>
 
-                {/* TouchableOpacity to trigger URL opening for Rave Recovery Kit */}
-                <TouchableOpacity style={styles.image} onPress={openweblinkRRK}>
-                    {/* Image for the Rave Recovery Kit */}
-                    <Image
-                    source={require("../assets/images/RRKcover.png")}
-                    style={styles.image}
-                    resizeMode="cover" // Adjust the image to cover the container area
-                    />
-                </TouchableOpacity>
+                  {/* TouchableOpacity to trigger URL opening for Rave Recovery Kit */}
+                  <TouchableOpacity style={styles.image} onPress={openweblinkRRK}>
+                      {/* Image for the Rave Recovery Kit */}
+                      <Image
+                      source={require("../assets/images/RRKcover.png")}
+                      style={styles.image}
+                      resizeMode="cover" // Adjust the image to cover the container area
+                      />
+                  </TouchableOpacity>
 
-                {/* TouchableOpacity to trigger URL opening for Power Gum Magnesium */}
-                <TouchableOpacity style={styles.image} onPress={openweblinkMG}>
-                    {/* Image for the Power Gum Magnesium */}
-                    <Image
-                    source={require("../assets/images/MGcover.png")}
-                    style={styles.image}
-                    resizeMode="cover" // Adjust the image to cover the container area
-                    />
-                </TouchableOpacity>
+                  {/* TouchableOpacity to trigger URL opening for Power Gum Magnesium */}
+                  <TouchableOpacity style={styles.image} onPress={openweblinkMG}>
+                      {/* Image for the Power Gum Magnesium */}
+                      <Image
+                      source={require("../assets/images/MGcover.png")}
+                      style={styles.image}
+                      resizeMode="cover" // Adjust the image to cover the container area
+                      />
+                  </TouchableOpacity>
 
-            </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>    
+              </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>   
+    </GradientBackground> 
   );
 };
 
