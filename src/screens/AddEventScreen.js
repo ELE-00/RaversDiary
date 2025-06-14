@@ -6,7 +6,7 @@ import { AuthContext } from '../utils/AuthContext';  // Import the AuthContext
 import { supabase } from '../utils/supabaseClient';  // Import Supabase client
 
 
-const MyArtistsScreen = () => {
+const AddEventScreen = () => {
   const [userId, setUserId] = useState(null); // Store user_id for profile saving
   const{user} = useContext(AuthContext);
 
@@ -47,7 +47,7 @@ const MyArtistsScreen = () => {
   return (
     <GradientBackground>
       <SafeAreaView style={globalStyles.MEcontainer}>
-        <Text style = {globalStyles.MEheaderText}>MY ARTISTS</Text>
+        <Text style = {globalStyles.MEheaderText}>ADD EVENT</Text>
         
         {/* Divider */}
         <View style={globalStyles.MEdivider} />
@@ -58,4 +58,4 @@ const MyArtistsScreen = () => {
 };
 
 
-export default MyArtistsScreen;
+export default AddEventScreen;

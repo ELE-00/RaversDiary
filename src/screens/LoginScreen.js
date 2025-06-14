@@ -39,7 +39,7 @@ export default function LoginScreen() {
         navigation.navigate('Onboarding1');
       } else {
         // If the user has logged in before, navigate to the Profile screen
-        navigation.navigate("Main", {screen: 'Checklist'});
+        navigation.navigate("Main", {screen: 'MyEvents'});
       }
 
      // Update the 'last_login' field in the database after successful login

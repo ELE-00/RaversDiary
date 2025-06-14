@@ -14,6 +14,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import TCPScreen from '../screens/TCPScreen';
 import GenreSelectionScreen from '../screens/GenreSelectionScreen';
 import MyEventsScreen from '../screens/MyEventsScreen';
+import AddEventScreen from '../screens/AddEventScreen'; 
 import MyArtistsScreen from '../screens/MyArtistsScreen';
 import ChecklistScreen from '../screens/ChecklistScreen';
 import BoomerangScreen from '../screens/BoomerangScreen';
@@ -86,6 +87,7 @@ function AppNavigator() {
       <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{ headerShown: false }} />
       <Stack.Screen name="TCP" component={TCPScreen} options={{ headerShown: false }} />
       <Stack.Screen name="GenreSelection" component={GenreSelectionScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="AddEvent" component={AddEventScreen} options={{ headerShown: false }} />
 
       {/* Main Tab Navigator for logged-in users */}
       <Stack.Screen name="Main" component={MainTabNavigator} options={{ headerShown: false }} />

@@ -235,12 +235,12 @@ const globalStyles = StyleSheet.create({
     marginTop: 10,
   },
   CLheaderText: {
-    textAlign: 'center',
     fontFamily: fonts.header,
-    fontSize: 28,
+    fontSize: 20,
     color: colors.primary,
     fontWeight: 'bold',
     marginBottom: 10,
+    paddingLeft: 16,
   },
   CLsubheaderText: {
     textAlign: 'center',
@@ -250,7 +250,7 @@ const globalStyles = StyleSheet.create({
     marginBottom: 15,
   },
   CLdivider: {
-    borderBottomColor: '#1A1A1A',
+    borderBottomColor: '#1AC069',
     borderBottomWidth: 1,
     width: '100%',
     alignSelf: 'center',
@@ -305,7 +305,6 @@ const globalStyles = StyleSheet.create({
   },
   CLcontainer: {
     flex: 1,
-    backgroundColor: '#000',
   },
   CLlist: {
     paddingHorizontal: 20,
@@ -338,10 +337,98 @@ const globalStyles = StyleSheet.create({
     color: 'black',
   },
 
+//My Events page
+  MEcontainer: {
+    flex: 1,
+  },
 
 
+  MEheaderContainer: {
+    flexDirection: "row",
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
 
-  
-});
+
+  MEheaderText: {
+    fontFamily: fonts.header,
+    fontSize: 20,
+    color: colors.primary,
+    fontWeight: 'bold',
+    paddingLeft: 16,
+  },
+
+  MEdivider: {
+    borderColor: 'rgb(27, 149, 88)',
+    borderBottomWidth: 1,
+    width: '100%',
+    alignSelf: 'center',
+    marginBottom: 20,
+  },
+
+  MEsectionTitle: {
+    fontSize: 16,
+    fontWeight: 'bold', 
+    color: colors.primary,
+    marginBottom: 8,
+    paddingLeft: 16,
+  },
+  MEeventItem: {
+    flex: 1 / 3,
+    alignItems: 'center',
+    marginVertical: 12,
+  },
+  MEeventImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 40, // makes it circular
+    marginBottom: 6,
+  },
+  MEeventName: {
+    color: 'white',
+    fontSize: 14,
+  },
+  MEeventDate: {
+    color: '#999',
+    fontSize: 12,
+  },
+
+  MEeventLogo: {
+    width: 70,
+    height: 70,
+    borderRadius: 43,
+    borderWidth: 2,
+    borderColor: 'rgb(77, 77, 77)',
+    alignSelf: 'center',
+    marginTop: 5,
+    marginBottom: 5,
+  },
+
+  MEaddEventBtn: {
+    borderRadius: 40,
+    alignItems: 'center',
+    marginBottom: 5,
+    marginRight: 20,
+    borderRadius: 40, // makes it circular
+    alignSelf: 'flex-end',
+  },
+
+  MEaddEventBtnText: {
+    fontSize: 45,
+    color: '#1ce069',
+  },
+
+  MEsearchbar: {
+    width: '100%',
+    height: 40,
+    backgroundColor: 'rgba(28, 224, 106, 0.1)',
+    color: '#1ce069',
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+    fontFamily: 'ChakraPetch-Regular',
+  },
+
+},);
 
 export { colors, fonts, globalStyles };
